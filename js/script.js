@@ -3,6 +3,7 @@
 const studentsUL = document.getElementsByTagName('ul')[0];
 const students = document.getElementsByClassName('student-item cf');
 const parentDiv = document.getElementsByClassName('page')[0];
+const itemsPerPage = 10;
 
 /*
 1.Calculates the indexes of the first and last elements
@@ -11,8 +12,8 @@ based on a max of 10 elements per page.
 that fit the criteria given the page number
 */
 const showPage = (students, page) => {
-  const firstIndex = (page - 1) * 10;
-  const lastIndex = firstIndex + 10 - 1;
+  const firstIndex = (page - 1) * itemsPerPage;
+  const lastIndex = firstIndex + itemsPerPage - 1;
   for (let i = 0; i < students.length; i++) {
     if (i >= firstIndex && i <=lastIndex) {
       students[i].style.display = 'block';
@@ -23,7 +24,7 @@ const showPage = (students, page) => {
 }
 
 const appendPageLinks = (parentDiv) => {
-  let pagesTotal = Math.ceil(students.length / 10);
+  let pagesTotal = Math.ceil(students.length / itemsPerPage);
   let div = document.createElement('div');
   div.className = 'pagination';
   let ul = document.createElement('ul');
