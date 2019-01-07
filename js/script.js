@@ -9,7 +9,7 @@ const itemsPerPage = 10;
 1.Calculates the indexes of the first and last elements
 based on a max of 10 elements per page.
 2. loops through the list and and shows only the elements
-that fit the criteria given the page number
+that fit the criteria given the page number.
 */
 const showPage = (students, page) => {
   const firstIndex = (page - 1) * itemsPerPage;
@@ -27,14 +27,19 @@ const appendPageLinks = (parentDiv) => {
   let pagesTotal = Math.ceil(students.length / itemsPerPage);
   let div = document.createElement('div');
   div.className = 'pagination';
+  parentDiv.appendChild(div);
   let ul = document.createElement('ul');
+  div.appendChild(ul);
+  /*
+  This for loop keeps the function dinamic, creating the links based on the
+  number os students and setting a maximum of 10 students per page.
+  */
   for (let i = 1; i <= pagesTotal; i++) {
     let li = document.createElement('li');
-    li.className = 'pagination';
     let a = document.createElement('a');
-    a.className = 'pagination';
-    li.appendChild(a);
     ul.appendChild(li);
+    li.appendChild(a);
+    // Gives the active class for the first page when the page opens.
     if (i === 1) {
       a.className = 'active';
       showPage(students, 1);
@@ -42,14 +47,16 @@ const appendPageLinks = (parentDiv) => {
     a.textContent = i;
     a.addEventListener('click', (e) => {
       e.preventDefault();
-      e.target.className = 'active';
-      if (a !== e.target) {
-        a.className = '';
-      }
       showPage(students, i);
+      // Selects all links and removes the active classes.
+      let links = document.querySelectorAll('a');
+      for (let i = 0; i < links.length; i++) {
+        links[i].classList.remove('active');
+      }
+      // Gives the active class back just for the link.
+      e.target.className = 'active';
     });
   }
-  parentDiv.appendChild(ul);
 }
 
 appendPageLinks(parentDiv);
